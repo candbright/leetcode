@@ -14,19 +14,13 @@ func numSubmatrixSumTarget(matrix [][]int, target int) int {
 	for i := 0; i < lenX; i++ {
 		m[i] = make([]int, lenY)
 	}
-	for startY := 0; startY < lenY; startY++ {
-		x := 0
-		y := startY
-		for x < lenX && y < lenY {
-			if x == lenX {
-				x = 0
-				y++
-			}
-			for curX := x; curX < lenX; curX++ {
+	for startX := 0; startX < lenX; startX++ {
+		for startY := 0; startY < lenY; startY++ {
+			for curX := startX; curX < lenX; curX++ {
 				sum := 0
-				for curY := y; curY < lenY; curY++ {
+				for curY := startY; curY < lenY; curY++ {
 					sum += matrix[curX][curY]
-					if curX == x {
+					if curX == startX {
 						m[curX][curY] = sum
 					} else {
 						m[curX][curY] = sum + m[curX-1][curY]
@@ -36,7 +30,6 @@ func numSubmatrixSumTarget(matrix [][]int, target int) int {
 					}
 				}
 			}
-			x++
 		}
 	}
 	return res
