@@ -12,34 +12,28 @@ func minDeletions(s string) int {
 		num[c-97]++
 	}
 	res := 0
-	unique := make([]int, 0)
+	set := make(map[int]struct{})
 	for i := 0; i < len(num); i++ {
 		if num[i] == 0 {
 			continue
 		}
-		index := 0
-		for {
-			if index == len(unique) {
-				unique = append(unique, num[i])
-				break
-			}
-			if num[i] > unique[index] {
-				left := make([]int, len(unique[:index]))
-				copy(left, unique[:index])
-				right := make([]int, len(unique[index:]))
-				copy(right, unique[index:])
-				unique = append(left, num[i])
-				unique = append(unique, right...)
-				break
-			} else if num[i] == unique[index] {
-				if num[i] == 0 {
+		val := num[i]
+		_, ok := set[val]
+		if !ok {
+			set[val] = struct{}{}
+			continue
+		} else {
+			for {
+				val--
+				res++
+				if val == 0 {
 					break
 				}
-				num[i]--
-				index++
-				res++
-			} else {
-				index++
+				_, ok := set[val]
+				if !ok {
+					set[val] = struct{}{}
+					break
+				}
 			}
 		}
 	}
