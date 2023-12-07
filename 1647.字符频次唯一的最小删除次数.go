@@ -17,24 +17,17 @@ func minDeletions(s string) int {
 		if num[i] == 0 {
 			continue
 		}
-		val := num[i]
-		_, ok := set[val]
-		if !ok {
-			set[val] = struct{}{}
-			continue
-		} else {
-			for {
-				val--
-				res++
-				if val == 0 {
-					break
-				}
-				_, ok := set[val]
-				if !ok {
-					set[val] = struct{}{}
-					break
-				}
+		for {
+			if num[i] == 0 {
+				break
 			}
+			_, ok := set[num[i]]
+			if !ok {
+				set[num[i]] = struct{}{}
+				break
+			}
+			num[i]--
+			res++
 		}
 	}
 	return res
